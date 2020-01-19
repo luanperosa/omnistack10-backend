@@ -1,20 +1,24 @@
-require('dotenv').config()
-const express = require('express');
-const mongoose = require('mongoose');
-const routes = require('./routes');
-const cors = require('cors');
+require('dotenv').config();
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const http = require('http')
 
-const app = express();
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 
-mongoose.connect(process.env.MONGODB_URI,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-);
+const app = express()
+const server = http.Server(app)
 
-app.use(cors());
-app.use(express.json());
-app.use(routes);
+const routes = require('./routes.js')
+const { setupWebsocket } = require('./websocket.js')
 
-app.listen(3333);
+setupWebsocket(server)
+
+app.use(cors())
+app.use(express.json())
+app.use(routes)
+
+server.listen(3333)
