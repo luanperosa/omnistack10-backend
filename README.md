@@ -1,4 +1,4 @@
-# omnistack10-backend DevRadar
+# Omnistack10-backend DevRadar
 Semana Omnistack 10.0 da Rockatseat
 
 ## :rocket: Tecnologias
